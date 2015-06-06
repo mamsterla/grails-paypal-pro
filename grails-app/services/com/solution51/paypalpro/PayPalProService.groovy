@@ -26,7 +26,7 @@ import com.paypal.sdk.core.nvp.NVPDecoder
 import com.paypal.sdk.profiles.APIProfile
 import com.paypal.sdk.core.nvp.NVPAPICaller
 import com.paypal.sdk.profiles.ProfileFactory
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.util.Holders
 
 class PayPalProService {
 
@@ -380,7 +380,7 @@ class PayPalProService {
     }
 
     Object getPaypalConfig() {
-        return ConfigurationHolder.config?.paypalPro
+        return Holders.config?.paypalPro
     }
 
     private PaymentResponse getPaymentResponse(String method, NVPDecoder nvpDecoder) {
