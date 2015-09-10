@@ -20,19 +20,13 @@ package com.solution51.paypalpro
  * Email: peter.delahunty@solution51.com
  * Date: 26-May-2009
 */
+class PaymentException extends RuntimeException {
 
-public class PaymentException extends RuntimeException {
-
-    public PaymentException() {
-        super()
-    }
-
-    public PaymentException(message) {
+    PaymentException(String message) {
         super(message)
     }
 
-    public PaymentException(message, cause) {
-        super(message, cause)
+    PaymentException(Throwable cause) {
+        super(cause)
     }
-
 }

@@ -20,8 +20,7 @@ package com.solution51.paypalpro
  * Email: peter.delahunty@solution51.com
  * Date: 26-May-2009
 */
-
-public enum CardType {
+enum CardType {
 
     VISA("Visa", "Visa"),
     MASTERCARD("MasterCard", "MasterCard"),
@@ -30,37 +29,22 @@ public enum CardType {
     MAESTRO("Maestro", "Maestro"),
     SOLO("Solo", "Solo")
 
-    private String displayName
-    private String paypalCode
+    final String displayName
+    final String paypalCode
 
     CardType(String displayName, String paypalCode) {
         this.displayName = displayName
         this.paypalCode = paypalCode
     }
 
-    String getDisplayName() {
-        return displayName
-    }
-
-    String getPaypalCode() {
-        return paypalCode
-    }
-
     static CardType parsePayPalCode(String name) {
-        if (name == VISA.paypalCode) {
-            return CardType.VISA
-        } else if (name == MASTERCARD.paypalCode) {
-            return CardType.MASTERCARD
-        } else if (name == DISCOVER.paypalCode) {
-            return CardType.DISCOVER
-        } else if (name == AMERICAN_EXPRESS.paypalCode) {
-            return CardType.AMERICAN_EXPRESS
-        } else if (name == MAESTRO.paypalCode) {
-            return CardType.MAESTRO
-        } else if (name == SOLO.paypalCode) {
-            return CardType.SOLO
+        switch (name) {
+            case VISA.paypalCode:             return CardType.VISA
+            case MASTERCARD.paypalCode:       return CardType.MASTERCARD
+            case DISCOVER.paypalCode:         return CardType.DISCOVER
+            case AMERICAN_EXPRESS.paypalCode: return CardType.AMERICAN_EXPRESS
+            case MAESTRO.paypalCode:          return CardType.MAESTRO
+            case SOLO.paypalCode:             return CardType.SOLO
         }
-        return null
     }
-
 }

@@ -23,25 +23,25 @@ package com.solution51.paypalpro
 
 class PayPalBillingHistory {
 
-    static mapping = {
-        table 'pp_billing_history'
-    }
-
-    PayPalBilling billing;
+    PayPalBilling billing
     Date dateCreated
     Date lastUpdated
 
-    PayPalBillingAction action;
+    PayPalBillingAction action
 
-    String profileId;
-    String profileStatus;
-    Double amount;
-    String currencyCode;
+    String profileId
+    String profileStatus
+    Double amount
+    String currencyCode
 
     static belongsTo = PayPalBilling
 
     static constraints = {
         amount(nullable:true)
         currencyCode(nullable:true)
+    }
+
+    static mapping = {
+        table 'pp_billing_history'
     }
 }
