@@ -20,11 +20,9 @@ package com.solution51.paypalpro
  * Email: peter.delahunty@solution51.com
  * Date: 26-May-2009
 */
-public enum PayPalBillingPeriod {
-
+enum PayPalBillingPeriod {
     DAY,
     WEEK,
     MONTH,
     YEAR
-
 }

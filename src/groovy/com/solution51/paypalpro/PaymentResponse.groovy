@@ -20,12 +20,7 @@ package com.solution51.paypalpro
  * Email: peter.delahunty@solution51.com
  * Date: 26-May-2009
 */
-
-public class PaymentResponse {
-
-    public PaymentResponse(Boolean success) {
-        this.success = success
-    }
+class PaymentResponse {
 
     private String profileId
     private String profileStatus
@@ -38,4 +33,7 @@ public class PaymentResponse {
 
     private Collection<PaymentError> errorMessages
 
+    PaymentResponse(Boolean success) {
+        this.success = success
+    }
 }
