@@ -23,83 +23,55 @@ package com.solution51.paypalpro
 
 import org.codehaus.groovy.grails.web.binding.DataBindingUtils
 
-public class PaymentRequest {
+class PaymentRequest {
 
     String profileId = ''
-
     String profileNote = ''
-
     Double amount = 0
-
     String cardType = ''
-
     String cardNumber = ''
-
     String cardIssueNumber = ''
-
     String cardStartMonth = ''
-
     String cardStartYear = ''
-
     String cardEndMonth = ''
-
     String cardEndYear = ''
-
     String cardVerificationValue = ''
-
     String email = ''
-
     String firstName = ''
-
     String lastName = ''
-
     String street = ''
-
     String city = ''
-
     String state = ''
-
     String zip = ''
-
     String countryCode = ''
-
     String currencyCode = ''
-
     String ipAddress = ''
-
     Date recurringBillingStartDate
-
     String recurringBillingPeriod = ''
-
     String recurringBillingFreqency = ''
-
     String recurringBillingDescription = ''
-
     String recurringBillingReference = ''
-
     Integer recurringBillingMaxFailedPayments = 3
-
     Double recurringBillingInitialAmount = 0
-
     String recurringBillingInitialAmountFailAction = 'CancelOnFailure'
 
-    public setProperties(Object o) {
+    void setProperties(o) {
         DataBindingUtils.bindObjectToInstance(this, o)
     }
 
-    public void setBillingDaily(Date startDate) {
+    void setBillingDaily(Date startDate) {
         setBilling('Day', '1', startDate)
     }
 
-    public void setBillingMonthly(Date startDate) {
+    void setBillingMonthly(Date startDate) {
         setBilling('Month', '1', startDate)
     }
 
-    public void setBillingWeekly(Date startDate) {
+    void setBillingWeekly(Date startDate) {
         setBilling('Week', '1', startDate)
     }
 
-    public void setBillingAnnually(Date startDate) {
+    void setBillingAnnually(Date startDate) {
         setBilling('Year', '1', startDate)
     }
 
@@ -108,5 +80,4 @@ public class PaymentRequest {
         recurringBillingFreqency = frequency
         recurringBillingStartDate = startDate
     }
-
 }

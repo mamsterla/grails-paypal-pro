@@ -26,39 +26,28 @@ import com.paypal.sdk.core.nvp.NVPDecoder
 import com.paypal.sdk.profiles.APIProfile
 import com.paypal.sdk.core.nvp.NVPAPICaller
 import com.paypal.sdk.profiles.ProfileFactory
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class PayPalProService {
 
     static final String testEnv = "sandbox"
-
     static final String devCentral = "developer"
-
     static final String DEFAULT_USER_NAME = "sdk-three_api1.sdk.com"
-
     static final String DEFAULT_PASSWORD = "QFZCWN5HZM8VBG7Q"
-
     static final String DEFAULT_SIGNATURE = "A.d9eRKfd1yVkRrtmMfCFLTqa6M9AyodL0SJkhYztxUi8W9pCXF6.4NI"
-
     static final String METHOD_DO_DIRECT_PAYMENT = "DoDirectPayment"
-
     static final String METHOD_CREATE_RECURRING_PAYMENTS_PROFILE = "CreateRecurringPaymentsProfile"
-
     static final String METHOD_MANAGE_RECURRING_PAYMENTS_PROFILE = "ManageRecurringPaymentsProfileStatus"
-
     static final String ACTION_RECURRING_CANCEL = "Cancel"
-
     static final String ACTION_RECURRING_SUSPEND = "Suspend"
-
     static final String ACTION_RECURRING_REACTIVATE = "Reactivate"
-
     static final String ACTION_PAYMENT_SALE = "Sale"
-
     static final String ACTION_PAYMENT_AUTHORIZATION = "Authorization"
 
-    boolean transactional = true
+    static transactional = false
 
-    def createMonthlyRecurringPayment(PayPalPaymentDetailsCommand paymentDetails, PayPalBilling billing, String note = "Create") {
+    def grailsApplication
+
+    boolean createMonthlyRecurringPayment(PayPalPaymentDetailsCommand paymentDetails, PayPalBilling billing, String note = "Create") {
 
         calculatePaymentStartDate(billing, 1, Calendar.MONTH)
         billing.period = PayPalBillingPeriod.MONTH
@@ -133,7 +122,7 @@ class PayPalProService {
         }
     }
 
-    def cancelMonthlyRecurringPayment(PayPalBilling billing, String changeNote = "Cancel") {
+    PayPalBilling cancelMonthlyRecurringPayment(PayPalBilling billing, String changeNote = "Cancel") {
         PaymentRequest paymentRequest = new PaymentRequest()
         paymentRequest.profileId = billing.profileId
         paymentRequest.profileNote = changeNote
@@ -160,7 +149,7 @@ class PayPalProService {
 
     }
 
-    def doSinglePaymentSale(PayPalPaymentDetailsCommand paymentDetails, PayPalPayment payment) {
+    PayPalPayment doSinglePaymentSale(PayPalPaymentDetailsCommand paymentDetails, PayPalPayment payment) {
 
         if (paymentDetails.validate() && payment.validate()) {
             PaymentRequest paymentRequest = new PaymentRequest()
@@ -222,7 +211,7 @@ class PayPalProService {
         return doPayment(METHOD_MANAGE_RECURRING_PAYMENTS_PROFILE, ACTION_RECURRING_CANCEL, paymentRequest)
     }
 
-    private def calculatePaymentStartDate(PayPalBilling billing, Integer amount, Integer unit) {
+    private void calculatePaymentStartDate(PayPalBilling billing, Integer amount, Integer unit) {
         Calendar calendar = Calendar.instance
         calendar.setTime(new Date())
         calendar.add(unit, amount)
@@ -231,16 +220,15 @@ class PayPalProService {
 
     private PaymentResponse doPayment(String method, String paymentAction, PaymentRequest paymentRequest) {
 
-        NVPAPICaller caller = null
         try {
-            caller = getNVPAPICaller()
+            NVPAPICaller caller = getNVPAPICaller()
             //NVPEncoder object is created and all the name value pairs are loaded into it.
             String NVPString = getNVPEncodedString(method, paymentAction, paymentRequest)
 
             if (log.traceEnabled) log.trace("PayPalPro REQUEST STRING: $NVPString")
 
             //call method will send the request to the server and return the response NVPString
-            String ppresponse = (String)caller.call(NVPString)
+            String ppresponse = caller.call(NVPString)
 
             if (log.traceEnabled) log.trace("PayPalPro RESPONSE STRING: $ppresponse")
 
@@ -250,8 +238,7 @@ class PayPalProService {
             //decode method of NVPDecoder will parse the request and decode the name and value pair
             resultValues.decode(ppresponse)
 
-            PaymentResponse paymentResponse = getPaymentResponse(method, resultValues)
-            return paymentResponse
+            return getPaymentResponse(method, resultValues)
         } catch (Exception e) {
             throw new PaymentException(e)
         }
@@ -281,23 +268,21 @@ class PayPalProService {
             if (METHOD_CREATE_RECURRING_PAYMENTS_PROFILE == method) {
                 addRecurringBillingInfo(paymentRequest, encoder)
             }
-
         }
 
         //encode method will encode the name and value and form NVP string for the request
-        String NVPString = encoder.encode()
-        return NVPString
+        return encoder.encode()
     }
 
-    private def addPaymentAction(String paymentAction, NVPEncoder encoder) {
+    private void addPaymentAction(String paymentAction, NVPEncoder encoder) {
         encoder.add("PAYMENTACTION", paymentAction)
     }
 
-    private def addMethod(String method, NVPEncoder encoder) {
+    private void addMethod(String method, NVPEncoder encoder) {
         encoder.add("METHOD", method)
     }
 
-    private def addIpAddress(PaymentRequest paymentRequest, NVPEncoder encoder) {
+    private void addIpAddress(PaymentRequest paymentRequest, NVPEncoder encoder) {
         encoder.add("IPADDRESS", paymentRequest.ipAddress)
     }
 
@@ -379,8 +364,8 @@ class PayPalProService {
         return caller
     }
 
-    Object getPaypalConfig() {
-        return ConfigurationHolder.config?.paypalPro
+    private getPaypalConfig() {
+        return grailsApplication.config?.paypalPro
     }
 
     private PaymentResponse getPaymentResponse(String method, NVPDecoder nvpDecoder) {
@@ -427,5 +412,4 @@ class PayPalProService {
             return paymentResponse
         }
     }
-
 }

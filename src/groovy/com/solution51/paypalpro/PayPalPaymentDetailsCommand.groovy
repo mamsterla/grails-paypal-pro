@@ -59,17 +59,16 @@ public class PayPalPaymentDetailsCommand {
 
     static constraints = {
         cardType blank: false
-        cardNumber blank: false 
-        cardEndMonth blank: false 
-        cardEndYear blank: false 
-        cardVerificationValue blank: false 
+        cardNumber blank: false
+        cardEndMonth blank: false
+        cardEndYear blank: false
+        cardVerificationValue blank: false
 
-        firstName blank: false 
-        lastName blank: false 
-        street blank: false 
-        city blank: false 
-        zip blank: false 
-        countryCode blank: false 
+        firstName blank: false
+        lastName blank: false
+        street blank: false
+        city blank: false
+        zip blank: false
+        countryCode blank: false
     }
-
 }

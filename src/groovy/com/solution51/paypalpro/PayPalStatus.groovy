@@ -21,10 +21,8 @@ package com.solution51.paypalpro
  * Date: 26-May-2009
 */
 
-public enum PayPalStatus {
-
+enum PayPalStatus {
     ACTIVE,
     CANCELLED,
     SUSPENDED
-
 }

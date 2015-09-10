@@ -23,16 +23,12 @@ package com.solution51.paypalpro
 
 class PayPalPayment {
 
-    static mapping = {
-        table 'pp_payment'
-    }
-
     Date dateCreated
     Date lastUpdated
     PayPalStatus status
     String transactionId
-    Double amount;
-    String currencyCode;
+    Double amount
+    String currencyCode
     String description
 
     static constraints = {
@@ -42,4 +38,7 @@ class PayPalPayment {
         transactionId(nullable:true)
     }
 
+    static mapping = {
+        table 'pp_payment'
+    }
 }

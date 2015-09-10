@@ -23,28 +23,24 @@ package com.solution51.paypalpro
 
 class PayPalBilling {
 
-    static mapping = {
-        table 'pp_billing'
-    }
-
-    static hasMany = [billingHistory:PayPalBillingHistory]
-
     Date dateCreated
     Date lastUpdated
     PayPalStatus status
 
-    String profileId;
-    String profileStatus;
+    String profileId
+    String profileStatus
 
     Integer maxFailedPayments = 3
     String referenceId
     String description
     Date startDate
     Double initialAmount
-    Double amount;
-    String currencyCode;
+    Double amount
+    String currencyCode
     PayPalBillingPeriod period
     Integer frequency
+
+    static hasMany = [billingHistory:PayPalBillingHistory]
 
     static constraints = {
         description(blank:false)
@@ -55,16 +51,20 @@ class PayPalBilling {
         profileStatus(nullable:true)
     }
 
+    static mapping = {
+        table 'pp_billing'
+    }
+
     Date calculateNextPaymentDate(){
-        Calendar today = getToday()
+        Calendar today = Calendar.instance
         Calendar nextDate = Calendar.instance
         nextDate.time = startDate
 
         if(period == PayPalBillingPeriod.WEEK){
             long todayMilli = today.getTimeInMillis()
-            long startDateMilli = nextDate.getTimeInMillis();
+            long startDateMilli = nextDate.getTimeInMillis()
             long diffMilli = todayMilli - startDateMilli
-            long diffDays = diffMilli / (24 * 60 * 60 * 1000);
+            long diffDays = diffMilli / (24 * 60 * 60 * 1000)
             int weeks = diffDays / 7
             nextDate.add(Calendar.WEEK_OF_YEAR,weeks)
         }else{
@@ -96,9 +96,5 @@ class PayPalBilling {
 
         }
         return nextDate.getTime()
-    }
-
-    private java.util.Calendar getToday() {
-        return Calendar.instance
     }
 }
